@@ -1,0 +1,73 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible" content="ie=edge")
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    include ../includes/head
+  body
+    .blog-wrapper.clearfix
+      include ../includes/header
+      .container.table-wrapper.table-responsive
+        table.table.table-bordered.table-hover
+          thead
+            tr.info
+              td 文章标题
+              td 文章作者
+              td 创建时间
+              td 访客量
+              td 查看
+              td 编辑
+              td 删除
+          tbody
+            each item in essays
+              tr(class=`essay-${item.id}`)
+                td #{item.title}
+                td #{item.author}
+                td #{item.meta.createAt}
+                td #{item.view}
+                td
+                  a(href=`/essay/${item._id}`) 阅读
+                td
+                  a(href=`/admin/essay/update/${item._id}`) 编辑
+                td
+                  button.btn.btn-danger.btn-delete(type="button" data-id=`${item.id}`) 删除
+        .c-row
+          a.btn.btn-default.pull-left(href="/logout") 登出
+          a.btn.btn-default.pull-right(href="/admin/essay/new") 新增文章
+      include ../includes/footer
+    script.
+      let ajaxXhr;
+      function deleteDataPromise (id) {
+        let defer = $.Deferred();
+        if (ajaxXhr) {
+          ajaxXhr.abort();
+          ajaxXhr = null;
+        }
+        ajaxXhr = $.ajax({
+          type: 'delete',
+          url: `/admin/essay/delete?id=${id}`,
+          success: (res) => {
+            if (res.status !== 1) {
+              defer.reject();
+            } else {
+              defer.resolve(); 
+            }
+          },
+          error: () => {
+            defer.reject();
+          }
+        });
+        return defer.promise();
+      }
+      $('.btn-delete').on('click', (e) => {
+        let id = $(e.target).data('id');
+        let $tr = $(`.essay-${id}`)
+        deleteDataPromise(id).then(() => {
+          $tr.remove();
+        }, () => {
+          alert('please retry!');
+        });
+      });

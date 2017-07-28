@@ -1,0 +1,75 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible" content="ie=edge")
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    include includes/head
+  body
+    .blog-wrapper.clearfix
+      include includes/header
+      .blog-content.container
+        .content.col-sm-12.col-md-8.col-lg-8
+          block content
+        .msg.col-md-4.col-lg-4.hidden-sm.hidden-xs
+          .msg-head
+            a(href="/")
+              img.msg-head-icon(src="/images/Yaphets.jpeg")
+            p Yaphets
+            hr
+            .msg-head-main Forever Yaphets Best
+            hr
+            nav
+              .log 
+                span #{count}
+                span 文章
+              .visiter
+                span #{count}
+                span 访客
+              .tag 
+                span 
+                span 标签
+            hr
+            .icon           
+              ul.icon-ul
+                li
+                  a(href="https://github.com/yaphetswtl519")
+                    img(src="/images/github.svg")
+                li
+                  a(href="http://weibo.com/5524338761")
+                    img(src="/images/blog.svg")
+                li
+                  a(href="http://music.163.com/#/user/home?id=346180922")
+                    img(src="/images/netease-music.svg")
+                li.icon-wechat
+                  a(href="#")
+                    img(src="/images/wechat.svg")
+                    .wechat-div
+                      .wechat
+                      .alipay
+                      p 如果你觉得我很帅，可以加我微信或者通过捐赏支持我，哈哈~       
+      #backTop
+        button.btn
+          img(src="/images/arrow.svg")
+      include includes/footer
+    script.
+      let wcli = $('.icon-wechat');
+      let wcdiv = wcli.find('.wechat-div');
+      wcli.on('mouseenter', () => {
+        wcdiv.show();
+      });
+      wcli.on('mouseleave', () => {
+        wcdiv.hide();
+      });
+      $(window).on('scroll', () => {
+        if ($(this).scrollTop() > 600) {
+          $('#backTop').show();
+        } else {
+          $('#backTop').hide();
+        }
+      });
+      $('#backTop').on('click', () => {
+        $('html,body').animate({scrollTop: 0}, 500);
+      });

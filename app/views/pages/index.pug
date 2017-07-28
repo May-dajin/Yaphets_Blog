@@ -1,0 +1,43 @@
+extends ../layout
+  
+block content
+  each item in essays
+    .blog-detail-item
+      .item-tag.row
+        a(href=`/essay/${item._id}`).item-link
+          p.col-md-12 #{item.title}
+      .item-content.row
+        .col-md-5.col-lg-5.col-sm-5.hidden-xs.article-theme
+          a(href=`/essay/${item._id}`)
+            img(src=item.poster)
+        .col-md-7.col-lg-7.col-sm-7.col-xs-12.article-summary
+          p #{item.origin}
+          //ul.article-tag
+            li css
+      .item-foot.row
+        .article-date.col-md-3.col-lg-3.col-sm-3.col-xs-3
+          img(src="/images/date.svg")
+          span #{item.createAt}
+        .article-author.col-md-1.col-lg-1.col-sm-1.hidden-xs
+          span #{item.author}
+        .article-browse.col-md-3.col-lg-3.col-xs-4.col-sm-3
+          img(src="/images/view.svg")
+          span #{item.view}
+        .article-detail.col-md-5.col-lg-5.col-xs-5.col-sm-5
+          a(href=`/essay/${item._id}`)
+            span 阅读全文 >>
+  nav
+    ul.pager
+      if +page != 1
+        - let pagePre = (+page) - 1
+            li.previous
+              a(href=`/page?p=${pagePre}`) 
+                span &larr;
+                span Previous
+      if +page < +pageSize
+        - let pageNext = (+page) + 1;
+          li.next
+            a(href=`/page?p=${pageNext}`)
+              span next
+              span &rarr;
+        

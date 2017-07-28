@@ -1,0 +1,46 @@
+header.main-header
+  #barbg
+    #bar
+  nav.container.clearfix.main-nav
+    .main-nav-title.pull-left
+      a.blog-title(href="/") Yaphets
+    .nav.pull-right
+      ul.nav-pills
+        li.nav-home
+          a(href="/") 主页
+        li.nav-about
+          a(href="/about") 关于
+        li.nav-friend
+          a(href="/link") 友链
+        li.nav-login
+          a(href="/login") 登陆
+
+
+script.
+  document.onreadystatechange = () => {
+    let bar = document.getElementById('bar');
+    let barbg = bar.parentNode;
+    let wd = document.body.scrollWidth || document.documentElement.scrollWidth;
+    let gap = 20;
+    let dis = 0;
+    let i = 0;
+    function move() {
+        dis += gap;
+        bar.style.width = dis + 'px';
+        if (dis <= wd) {
+            requestAnimationFrame(move);
+        }else {
+            cancelAnimationFrame(move);
+            disappear();
+        }
+    }
+    function disappear() {
+        let opacity = 10 - (i++);
+        barbg.style.opacity = opacity * 0.1;
+        if (opacity !== 0) {
+            setTimeout(disappear, 20);
+        }
+    }
+    move();
+  };
+    

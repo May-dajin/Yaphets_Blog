@@ -1,0 +1,70 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible" content="ie=edge")
+    title= title
+    link(rel='stylesheet', href='/stylesheets/admin.css')
+    include ../includes/head
+  body
+    - let hour = new Date().getHours();
+    - let greeting = '';
+    - if (hour > 6 && hour < 12) {
+    - 	greeting = '上午好';
+    - } else if (hour >= 12 && hour <= 18) {
+    -   greeting = '下午好';
+    - } else {
+    -		greeting = '晚上好';
+    - }
+    nav.container.admin-head
+      h1.navbar-text Yaphets, #{greeting}
+    .container.admin
+      form.form-horizontal(method="post", enctype="multipart/form-data", action="/admin/essay")
+        input(type="hidden", name="_id", value=`${essay._id}`)
+        .form-group
+          label.col-sm-2.control-label(for="form-title") 文章标题
+          .col-sm-10
+            input#form-title(type="text", placeholder="Title", name="title", value=`${essay.title}`)
+        .form-group
+          label.col-sm-2.control-label(for="form-poster") 图片
+          .col-sm-10
+            input#form-poster(type="file", name="poster", value=`${essay.poster}`)
+        .form-group
+          label.col-sm-2.control-label(for="form-author") 作者
+          .col-sm-10
+            input#form-author(type="text", placeholder="Title", name="author", value=`${essay.author}`)
+        .form-group
+          label.col-sm-2.control-label(for="form-summary") 总结
+          .col-sm-10
+            input#form-summary(type="text", placeholder="Summary", name="summary", value=`${essay.summary}`)
+        .form-group
+          label.col-sm-2.control-label(for="form-content") 内容
+          .col-sm-5
+            textarea#form-markdown-content.form-control(oninput="change(this, '#form-html-content')", name="content", type="text", rows=30, placeholder="Markdown Content", autofocus) #{essay.content}
+          .col-sm-5
+            textarea#form-html-content.form-control(type="text", rows=30, placeholder="Html Content", autofocus, name="origin")
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-default(type="submit") 录入
+    include ../includes/footer
+    script.
+      //markdown转换
+      function change (input, output) {
+        let value = $(input).val();
+        let outputValue = markdown.toHTML(value);
+        $(output).html(outputValue);
+      }
+      //tab缩进功能
+      $('#form-markdown-content').on('keydown', function (e) {
+        if (e.keyCode === 9) {
+          e.preventDefault();
+          let indent = '    ';
+          let start = this.selectionStart;
+          let end = this.selectionEnd;
+          let selected = window.getSelection().toString();
+          selected = indent + selected.replace(/\n/g, '\n' + indent);
+          this.value = this.value.substring(0, start) + selected + this.value.substring(end);
+          this.setSelectionRange(start + indent.length, start + selected.length);
+        }
+      });

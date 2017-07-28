@@ -1,0 +1,106 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(http-equiv="X-UA-Compatible" content="ie=edge")
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    include ../includes/head
+  body
+    .blog-wrapper.clearfix
+      include ../includes/header
+      .blog-content.container
+        .content.col-sm-12.col-md-8.col-lg-8
+          article.essay-article
+            header.essay-header
+              h1.essay-title #{essay.title}
+              section.essay-meta
+                span.essay-item.essay-author #{essay.author}
+                span.essay-item.essay-date #{essay.meta.createAt}
+                span.essay-item.essay-view #{essay.view}人看过
+                span.essay-item.essay-summary #{essay.summary}
+            section.essay-content #{essay.content}
+            .comments-detail
+              h4 留言 (#{essay.comments.length}条)
+              hr
+              .comments-wrapper
+                each item in essay.comments
+                  .comments-item
+                    .comments-item-header
+                      p
+                        span.comments-item-author #{item.name}
+                        span  说:
+                    .comments-item-content
+                      p #{item.text}
+                    .comments-item-footer
+                      p.comments-item-date #{item.date}
+            .comments-area
+              h4.comments-area-header 随意发表您的观点吧~
+              .comments-commit-content
+                form#comments-form(method="post" action="/essay/comments" enctype="multipart/form-data" onsubmit="return validation()")
+                  input(type="hidden", name="_id", value=`${essay._id}`)
+                  .form-group#comments-text-div
+                    p
+                      label(for="comment-text") 留言
+                    p
+                      textarea#comment-text(name="text" rows=6 cols=70 placeholder="发表您的看法")
+                      span#comment-text-span.comment-span 请做有效评论！
+                  .form-group#comments-name-div
+                    p
+                      label(for="comment-name") 您的名字
+                    p
+                      input#comment-name(type="text" name="name")
+                      span  <<- 必填
+                      span#comment-name-span.comment-span  请填写名字让我知道您是谁！
+                  .form-group#comments-email-div
+                    p
+                      label(for="comment-email") 电子邮箱
+                    p
+                      input#comment-email(type="text" name="email")
+                      span  <<- 选填，不公开
+                      span#comment-email-span.comment-span  请填写正确的邮箱地址！
+                  .form-group#comments-submit-div
+                    p
+                      input#comment-submit(type="submit" name="post")
+        .msg.col-md-4.col-lg-4.hidden-sm.hidden-xs
+          .msg-head
+            a(href="/")
+              img.msg-head-icon(src="../images/Yaphets.jpeg")
+            p Yaphets
+            hr
+            .msg-head-main Forever Yaphets Best
+            hr
+      include ../includes/footer
+    script.
+        let $content = $('.essay-content');
+        let $text = $('#comment-text');
+        let $name = $('#comment-name');
+        let $email = $('#comment-email');
+        let $commentspan = $('#comment-text-span');
+        let $namespan = $('#comment-name-span');
+        let $emailspan = $('#comment-email-span');
+        let html = markdown.toHTML($content.html());
+        $content.html(html);
+        function validation () {
+          let emailRegExp = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+          if (!$text.val()) {
+            $commentspan.show();
+            return false;
+          } else {
+            $commentspan.hide();
+          }
+          if (!$name.val()) {
+            $namespan.show();
+            return false;
+          } else {
+            $namespan.hide();
+          }
+          if (!emailRegExp.test($email.val())) {
+            $emailspan.show();
+            return false;
+          } else {
+            $email.hide();
+          }
+          return true;
+        }

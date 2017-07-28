@@ -1,0 +1,82 @@
+.blog-login-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url(../images/nevermore.jpg);
+  background-size: cover;
+}
+.blog-head {
+	position: relative;
+	top: 50px;
+	margin: 0 auto;
+	width: 260px;
+}
+.form-header #blog-header {
+	display: block;
+	text-align: center;
+  font-weight: bold;
+  font-size: 50px;
+  color: white;
+  height: 100%;
+}
+.form-header #blog-abstract {
+	position: relative;
+	width: 517px;
+	left: 50%;
+	margin: 10px 0 16px -258px;
+	font-size: 15px;
+	font-weight: normal;
+	color: #fff;
+	text-align: center;
+}
+.signup-forms {
+	width: 260px;
+  height: 145px;
+}
+.signup-forms .signup-container {
+	width: 260px;
+	overflow: hidden;
+	background: #fff;
+	border-radius: 3px;
+}
+.signup-forms .signup-account .form-user{
+	width: 260px;
+	height: 45px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+}
+.signup-forms input {
+	padding: 11px 10px 11px 13px;
+	width: 100%;
+	margin: 0px;
+	background: #fff!important;
+	font: 16px/1.4 "Helvetica Neue","HelveticaNeue",Helvetica,Arial,sans-serif;
+	border: 0px;
+}
+.signup-forms .form-password {
+	border-top: 1px solid #e3e3e3;
+}
+#signup-botton:focus {
+	outline-color: none!important;
+}
+#signup-button {
+	width: 260px;
+	height: 45px;
+	background: #529ECC;
+	border: 0px;
+	border-radius: 3px;
+	cursor: pointer;
+}
+#signup-button span {
+	color: #fff;
+	font-size: 16px;
+}
+#signup-button span strong {
+	font-weight: bold;
+}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
