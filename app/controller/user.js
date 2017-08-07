@@ -4,12 +4,20 @@ module.exports = {
     //登陆
     signin: (req, res) => {
         let user = req.body;
+        console.log(user);
         let {name, password} = user;
         UserModel.findOne({name: name}, (err, result) => {
             if (err) {
                 console.log(err);
             }
             if (!result) {
+                var _user = new UserModel({
+                    name: name,
+                    password: password
+                });
+                _user.save(() => {
+                    console.log('success');
+                });
                 return res.redirect('/login');
             }
             result.comparePassword(password, (err, compareResult) => {//验证密码
